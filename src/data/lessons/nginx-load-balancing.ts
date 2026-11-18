@@ -319,7 +319,7 @@ export const nginxLoadBalancingLesson: Lesson = {
         'An unhandled promise rejection causes Node Instance 2 (port 5002) to crash. In open-source NGINX, max_fails=1 fail_timeout=10s marks the dead instance unavailable as soon as a connection fails.',
         'With proxy_next_upstream error timeout http_502;, NGINX catches the failure instantly and reroutes the user\'s request to Instance 1 or 3 without dropping the connection.',
       ],
-      goodToKnow: 'Open-source NGINX only supports passive health checks (detecting failure when a real client request fails). Scheduled active background health probes require commercial NGINX Plus.',
+      goodToKnow: 'Open-source NGINX only supports passive health checks (detecting failure when a real client request fails). Scheduled active background health probes require commercial NGINX Plus. NGINX retries only safe requests like GET on the next server by default; non-idempotent methods like POST need non_idempotent, and enabling it can run a failed write twice.',
       nodes: [
         {
           id: 'users',

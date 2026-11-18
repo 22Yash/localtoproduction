@@ -4,6 +4,18 @@ export type NodeKind = 'users' | 'nginx' | 'node' | 'redis' | 'mongo' | 'cdn' | 
 export type NodeStatus = 'hidden' | 'active' | 'overloaded' | 'crashed' | 'recovering';
 export type FlowType = 'request' | 'response' | 'cacheMiss' | 'cacheFill' | 'invalidate';
 
+export type TelemetryIconName =
+  | 'Server'
+  | 'Gauge'
+  | 'AlertTriangle'
+  | 'Cpu'
+  | 'Activity'
+  | 'Clock'
+  | 'Shield'
+  | 'CheckCircle'
+  | 'Zap'
+  | 'Database';
+
 export interface SceneNode {
   id: string;
   kind: NodeKind;
@@ -28,7 +40,7 @@ export interface TelemetryMetric {
   label: string;            // "P95 LATENCY"
   value: string;            // "180 ms" or "fresh" (text allowed)
   numeric?: number;         // used by the auto "What changed" diff
-  icon: string;             // lucide icon name
+  icon: TelemetryIconName;
 }
 
 export interface FormulaRow {
