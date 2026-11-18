@@ -394,3 +394,12 @@ export function getLessonById(id: string): Lesson | undefined {
 export function getModuleById(id: string): Module | undefined {
   return modules.find((m) => m.id === id);
 }
+
+export function isLessonPlaceholder(lesson?: Lesson | null): boolean {
+  if (!lesson) return true;
+  return (
+    lesson.steps.length <= 1 &&
+    ((lesson.steps[0]?.nodes.length ?? 0) === 0 ||
+      lesson.steps[0]?.title.includes('Coming Soon'))
+  );
+}

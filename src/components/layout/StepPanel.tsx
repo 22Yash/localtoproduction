@@ -9,7 +9,7 @@ import {
   X,
   Sparkles,
 } from 'lucide-react';
-import { lessons } from '../../data/modules';
+import { lessons, isLessonPlaceholder } from '../../data/modules';
 import { useCourseStore } from '../../store/useCourseStore';
 
 interface StepPanelProps {
@@ -29,6 +29,7 @@ export function StepPanel({ onCloseDrawer, className = '' }: StepPanelProps): Re
   const totalSteps = steps.length;
   const isFirstStep = currentStepIndex === 0;
   const isLastStep = currentStepIndex === totalSteps - 1;
+  const isPlaceholder = isLessonPlaceholder(lesson);
   const nextStepData = !isLastStep ? steps[currentStepIndex + 1] : undefined;
 
   // Compute "What changed" diff between step N and step N-1
@@ -144,13 +145,22 @@ export function StepPanel({ onCloseDrawer, className = '' }: StepPanelProps): Re
             <button
               type="button"
               onClick={nextStep}
-              className="flex-1 px-3.5 py-2 text-xs font-mono font-semibold rounded-lg border border-ink bg-accent hover:bg-accent-hover text-ink shadow-hard active:translate-x-[1px] active:translate-y-[1px] active:shadow-none flex items-center justify-between transition-all"
+              disabled={isLastStep && isPlaceholder}
+              className={`flex-1 px-3.5 py-2 text-xs font-mono font-semibold rounded-lg border border-ink transition-all flex items-center justify-between ${
+                isLastStep && isPlaceholder
+                  ? 'bg-surface text-ink/40 border-divider cursor-not-allowed opacity-60'
+                  : 'bg-accent hover:bg-accent-hover text-ink shadow-hard active:translate-x-[1px] active:translate-y-[1px] active:shadow-none'
+              }`}
             >
               <span className="truncate">
-                {isLastStep ? 'Complete Lesson' : `Next: ${nextStepData?.shortLabel}`}
+                {isLastStep
+                  ? isPlaceholder
+                    ? 'Coming Soon'
+                    : 'Complete Lesson'
+                  : `Next: ${nextStepData?.shortLabel}`}
               </span>
               {isLastStep ? (
-                <Check className="w-3.5 h-3.5 shrink-0 ml-1.5" />
+                !isPlaceholder && <Check className="w-3.5 h-3.5 shrink-0 ml-1.5" />
               ) : (
                 <ArrowRight className="w-3.5 h-3.5 shrink-0 ml-1.5" />
               )}

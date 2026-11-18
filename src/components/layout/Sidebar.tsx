@@ -8,7 +8,7 @@ import {
   Circle,
   X,
 } from 'lucide-react';
-import { modules, lessons, allLessons } from '../../data/modules';
+import { modules, lessons, allLessons, isLessonPlaceholder } from '../../data/modules';
 import { useCourseStore } from '../../store/useCourseStore';
 
 interface SidebarProps {
@@ -21,6 +21,12 @@ export function Sidebar({ onCloseDrawer, className = '' }: SidebarProps): React.
   const currentLessonId = useCourseStore((s) => s.currentLessonId);
   const completedLessons = useCourseStore((s) => s.completedLessons);
   const selectLesson = useCourseStore((s) => s.selectLesson);
+
+  // Filter completed lessons so placeholders never count
+  const validCompletedLessons = completedLessons.filter((id) => {
+    const l = lessons[id];
+    return l && !isLessonPlaceholder(l);
+  });
 
   // Keep track of which modules are expanded
   const [expandedModules, setExpandedModules] = useState<Record<string, boolean>>({
@@ -36,7 +42,7 @@ export function Sidebar({ onCloseDrawer, className = '' }: SidebarProps): React.
   }
 
   const totalLessonsCount = allLessons.length;
-  const completedCount = completedLessons.length;
+  const completedCount = validCompletedLessons.length;
   const progressPercent = Math.round((completedCount / (totalLessonsCount || 1)) * 100);
 
   return (
@@ -71,7 +77,7 @@ export function Sidebar({ onCloseDrawer, className = '' }: SidebarProps): React.
         {modules.map((module) => {
           const isExpanded = !!expandedModules[module.id];
           const moduleCompleted = module.lessonIds.filter((id) =>
-            completedLessons.includes(id),
+            validCompletedLessons.includes(id),
           ).length;
 
           return (
@@ -80,26 +86,26 @@ export function Sidebar({ onCloseDrawer, className = '' }: SidebarProps): React.
               <button
                 type="button"
                 onClick={() => toggleModule(module.id)}
-                className="w-full px-2.5 py-2 flex items-center justify-between text-left hover:bg-tint/50 transition-colors"
+                className="w-full px-2.5 py-2 flex items-start justify-between text-left hover:bg-tint/50 transition-colors"
               >
-                <div className="flex items-center gap-1.5 font-bold text-ink truncate mr-2">
-                  <span className="text-ink/60">
+                <div className="flex items-start gap-1.5 font-bold text-ink mr-2 min-w-0">
+                  <span className="text-ink/60 mt-0.5 shrink-0">
                     {isExpanded ? (
                       <ChevronDown className="w-3.5 h-3.5" />
                     ) : (
                       <ChevronRight className="w-3.5 h-3.5" />
                     )}
                   </span>
-                  <span className="text-ink/70">
+                  <span className="text-ink/70 mt-0.5 shrink-0">
                     {isExpanded ? (
                       <FolderOpen className="w-3.5 h-3.5 text-ink/80" />
                     ) : (
                       <Folder className="w-3.5 h-3.5 text-ink/70" />
                     )}
                   </span>
-                  <span className="truncate">{module.title}</span>
+                  <span className="leading-snug break-words line-clamp-2">{module.title}</span>
                 </div>
-                <span className="text-[10px] text-ink/60 shrink-0">
+                <span className="text-[10px] text-ink/60 shrink-0 mt-0.5">
                   {moduleCompleted}/{module.lessonIds.length}
                 </span>
               </button>
@@ -111,7 +117,7 @@ export function Sidebar({ onCloseDrawer, className = '' }: SidebarProps): React.
                     const lesson = lessons[lessonId];
                     if (!lesson) return null;
                     const isActive = lesson.id === currentLessonId;
-                    const isDone = completedLessons.includes(lesson.id);
+                    const isDone = validCompletedLessons.includes(lesson.id);
 
                     return (
                       <button
@@ -121,20 +127,22 @@ export function Sidebar({ onCloseDrawer, className = '' }: SidebarProps): React.
                           selectLesson(lesson.id, module.id);
                           onCloseDrawer?.();
                         }}
-                        className={`w-full text-left px-2 py-1.5 rounded flex items-center gap-2 transition-all ${
+                        className={`w-full text-left px-2 py-1.5 rounded flex items-start gap-2 transition-all ${
                           isActive
                             ? 'bg-accent text-ink border border-ink shadow-hard font-semibold'
                             : 'text-ink/80 hover:bg-tint hover:text-ink'
                         }`}
                       >
-                        <span className="shrink-0">
+                        <span className="shrink-0 mt-0.5">
                           {isDone ? (
                             <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
                           ) : (
                             <Circle className="w-3.5 h-3.5 text-ink/30" />
                           )}
                         </span>
-                        <span className="truncate text-[11px]">{lesson.title}</span>
+                        <span className="text-[11px] leading-snug break-words line-clamp-2">
+                          {lesson.title}
+                        </span>
                       </button>
                     );
                   })}

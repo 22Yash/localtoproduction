@@ -90,15 +90,15 @@ export function TopNav({
       {/* Right: Search + Language + Theme Toggle + Mobile Step Drawer */}
       <div className="flex items-center gap-2">
         {/* Search Input Box */}
-        <div className="relative hidden sm:block w-48 md:w-64">
+        <div className="relative hidden sm:block w-44 md:w-64">
           <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-ink/50 pointer-events-none" />
           <input
             ref={activeInputRef}
             type="text"
-            placeholder="Search lessons & concepts..."
-            className="w-full bg-bg border border-divider focus:border-ink rounded-lg pl-8 pr-12 py-1 text-xs font-mono text-ink placeholder:text-ink/40 outline-none transition-colors"
+            placeholder="Search lessons"
+            className="w-full bg-bg border border-divider focus:border-ink rounded-lg pl-8 pr-3 md:pr-14 py-1 text-xs font-mono text-ink placeholder:text-ink/40 outline-none transition-colors"
           />
-          <kbd className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-mono border border-divider bg-surface px-1.5 py-0.5 rounded text-ink/60 pointer-events-none">
+          <kbd className="hidden md:inline-block absolute right-2 top-1/2 -translate-y-1/2 text-[10px] font-mono border border-divider bg-surface px-1.5 py-0.5 rounded text-ink/60 pointer-events-none">
             Ctrl K
           </kbd>
         </div>
