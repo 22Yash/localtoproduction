@@ -1,0 +1,61 @@
+@layer base {
+  :root {
+    /* Base theme colors - Warm Technical Blueprint (Light) */
+    --bg: #F6F4EC;
+    --surface: #FCFBF7;
+    --tint: #EBE7D9;
+    --ink: #222222;
+    --divider: #D5D0C3;
+
+    /* Accent & Interactions */
+    --accent: #CBE4B4;
+    --accent-hover: #BCD9A3;
+
+    /* "Good to know" callout */
+    --callout-bg: #EEF6E8;
+    --callout-border: #C0DE9E;
+
+    /* Node colors */
+    --node-nginx: #CBE4B4;
+    --node-app: #B8D8F8;
+    --node-redis: #F7D9A8;
+    --node-mongo: #D8C8F4;
+    --node-crashed: #FCA5A5;
+
+    /* Traffic particle colors */
+    --traffic-request: #22C55E;
+    --traffic-response: #3B82F6;
+    --traffic-cache-miss: #F59E0B;
+    --traffic-invalidate: #EF4444;
+  }
+
+  .dark {
+    /* Dark mode - Dark Technical Blueprint */
+    --bg: #181816;
+    --surface: #24231E;
+    --tint: #323028;
+    --ink: #EAE7DD;
+    --divider: #3E3C33;
+
+    /* Accent & Interactions */
+    --accent: #A6CE84;
+    --accent-hover: #B8DE96;
+
+    /* "Good to know" callout */
+    --callout-bg: #20291B;
+    --callout-border: #3B542C;
+
+    /* Node colors */
+    --node-nginx: #9ECB7D;
+    --node-app: #7CAEDF;
+    --node-redis: #E2BC7A;
+    --node-mongo: #BFA5E5;
+    --node-crashed: #EF4444;
+
+    /* Traffic particle colors */
+    --traffic-request: #22C55E;
+    --traffic-response: #3B82F6;
+    --traffic-cache-miss: #F59E0B;
+    --traffic-invalidate: #EF4444;
+  }
+}
