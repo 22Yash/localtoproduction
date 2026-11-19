@@ -1,6 +1,7 @@
 import { Difficulty, Lesson, Module } from '../types/course';
 import { localhostHidesLesson } from './lessons/localhost-hides';
 import { blockingIoEventLoopLesson } from './lessons/blocking-io-event-loop';
+import { paasVsIaasVsVpsLesson } from './lessons/paas-vs-iaas-vs-vps';
 import { nginxLoadBalancingLesson } from './lessons/nginx-load-balancing';
 
 function createPlaceholderLesson(
@@ -131,15 +132,7 @@ export const lessons: Record<string, Lesson> = {
   // Module 1: Localhost Limits
   'localhost-hides': localhostHidesLesson,
   'blocking-io-event-loop': blockingIoEventLoopLesson,
-  'paas-vs-iaas-vs-vps': createPlaceholderLesson(
-    'paas-vs-iaas-vs-vps',
-    '01-localhost-limits',
-    3,
-    'PaaS vs IaaS vs VPS',
-    'What a "Deploy" button actually does for you.',
-    'Beginner',
-    9,
-  ),
+  'paas-vs-iaas-vs-vps': paasVsIaasVsVpsLesson,
   'target-architecture': createPlaceholderLesson(
     'target-architecture',
     '01-localhost-limits',

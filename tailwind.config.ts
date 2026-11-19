@@ -24,6 +24,7 @@ export default {
           app: 'var(--node-app)',
           redis: 'var(--node-redis)',
           mongo: 'var(--node-mongo)',
+          custom: 'var(--node-custom)',
           crashed: 'var(--node-crashed)',
           overloaded: 'var(--node-overloaded)',
           recovering: 'var(--node-recovering)',

@@ -20,6 +20,23 @@ Check this file before writing lesson text. These are the facts most likely to b
   - Use streaming or chunked asynchronous APIs instead of giant synchronous operations.
   - Scale to multiple processes using Node's `cluster` module or process managers like PM2 to utilize multi-core CPUs.
 
+## PaaS, IaaS and VPS
+- **PaaS (Platform as a Service)** (e.g. Render, Vercel, Railway, Heroku):
+  - Developer supplies code or a repository link.
+  - The platform manages the build pipeline, OS patching, runtime environment, load balancing, automatic HTTPS certificates, reverse proxy routing, log aggregation, and vertical/horizontal scaling.
+  - Trade-off: High developer velocity and minimal maintenance, but lower architectural control, potential vendor lock-in, and significantly higher cost at scale (CPU, RAM, bandwidth markups).
+- **IaaS (Infrastructure as a Service)** (e.g. AWS EC2, Google Compute Engine, Azure VMs):
+  - Provider provisions raw virtualized compute (VMs), VPC networking, block storage, and security groups.
+  - The developer/organization manages the OS installation, kernel updates, security patching, runtime setup (Node, Python), process supervisors, web servers, and application deployments.
+  - Trade-off: Maximum architectural flexibility and ecosystem integration, but requires dedicated DevOps skills and complex pricing/configuration.
+- **VPS (Virtual Private Server)** (e.g. DigitalOcean, Hetzner, Linode/Akamai):
+  - A sliced virtual machine running on shared host hardware with full `root` access.
+  - Typically offers simple, predictable, fixed monthly billing (e.g. ~$4–$6/month for entry tiers TODO(verify)).
+  - Trade-off: Cost-effective and straightforward for learning and small-to-medium production workloads, but requires the developer to manage Linux administration, security, backups, and failover manually.
+- **Category overlap**:
+  - The boundaries between VPS and IaaS are blurry and not strict; many modern VPS providers offer block storage, private networking, firewalls, and managed databases, while IaaS providers offer lightweight VPS-like tiers (e.g. AWS Lightsail TODO(verify)).
+  - Production architectures commonly blend these paradigms: using PaaS for frontend/edge workloads and managed databases, with VPS or cloud VMs for backend compute.
+
 ## PM2: cluster mode vs separate processes
 - **Cluster mode** (`pm2 start server.js -i max`) runs several instances that **share one port**. Node's cluster module distributes connections. You cannot give each instance its own port in this mode.
 - To get **separate ports** (5001, 5002, 5003), run separate processes in **fork mode** with different `PORT` environment variables. NGINX `upstream` then lists three servers.

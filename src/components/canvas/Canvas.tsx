@@ -8,11 +8,14 @@ import {
   Globe,
   Box,
   Layers,
+  Cloud,
+  Cpu,
+  HardDrive,
   RotateCcw,
   Play,
   Pause,
 } from 'lucide-react';
-import { NodeKind } from '../../types/course';
+import { NodeKind, SceneNode } from '../../types/course';
 import { lessons } from '../../data/modules';
 import { useCourseStore } from '../../store/useCourseStore';
 import {
@@ -41,13 +44,15 @@ function getNodeColor(kind: NodeKind): string {
       return 'var(--node-app)';
     case 'k8s':
       return 'var(--node-nginx)';
+    case 'custom':
+      return 'var(--node-custom)';
     default:
       return 'var(--surface)';
   }
 }
 
-function getNodeIcon(kind: NodeKind): React.ReactNode {
-  switch (kind) {
+function getNodeIcon(node: SceneNode): React.ReactNode {
+  switch (node.kind) {
     case 'nginx':
       return <Network className="w-6 h-6 text-ink" />;
     case 'node':
@@ -62,6 +67,11 @@ function getNodeIcon(kind: NodeKind): React.ReactNode {
       return <Box className="w-6 h-6 text-ink" />;
     case 'k8s':
       return <Layers className="w-6 h-6 text-ink" />;
+    case 'custom':
+      if (node.id.includes('paas')) return <Cloud className="w-6 h-6 text-ink" />;
+      if (node.id.includes('iaas') || node.id.includes('vm')) return <Cpu className="w-6 h-6 text-ink" />;
+      if (node.id.includes('vps')) return <HardDrive className="w-6 h-6 text-ink" />;
+      return <Server className="w-6 h-6 text-ink" />;
     default:
       return <Server className="w-6 h-6 text-ink" />;
   }
@@ -360,7 +370,7 @@ export function Canvas(): React.JSX.Element {
                     status={node.status}
                     badge={node.badge}
                     color={getNodeColor(node.kind)}
-                    icon={getNodeIcon(node.kind)}
+                    icon={getNodeIcon(node)}
                   />
                 );
               })}

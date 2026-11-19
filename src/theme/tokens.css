@@ -20,6 +20,7 @@
     --node-app: #B8D8F8;
     --node-redis: #F7D9A8;
     --node-mongo: #D8C8F4;
+    --node-custom: #E8E4D9;
     --node-crashed: #FCA5A5;
     --node-overloaded: #FDE68A;
     --node-recovering: #BAE6FD;
@@ -53,6 +54,7 @@
     --node-app: #7CAEDF;
     --node-redis: #E2BC7A;
     --node-mongo: #BFA5E5;
+    --node-custom: #3A3830;
     --node-crashed: #EF4444;
     --node-overloaded: #78350F;
     --node-recovering: #0369A1;
