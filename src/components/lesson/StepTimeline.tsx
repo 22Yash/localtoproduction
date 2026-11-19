@@ -41,7 +41,7 @@ export function StepTimeline(): React.JSX.Element | null {
                 {idx + 1}
               </div>
               <span
-                className={`text-[10px] font-mono truncate max-w-[85px] ${
+                className={`text-[10px] font-mono text-center leading-tight line-clamp-2 max-w-[95px] px-0.5 ${
                   isActive ? 'font-bold text-ink' : 'text-ink/60'
                 }`}
               >

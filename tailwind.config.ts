@@ -25,6 +25,8 @@ export default {
           redis: 'var(--node-redis)',
           mongo: 'var(--node-mongo)',
           crashed: 'var(--node-crashed)',
+          overloaded: 'var(--node-overloaded)',
+          recovering: 'var(--node-recovering)',
         },
         traffic: {
           request: 'var(--traffic-request)',

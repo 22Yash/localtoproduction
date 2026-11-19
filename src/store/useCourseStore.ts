@@ -10,6 +10,7 @@ export interface CourseState {
   speed: 1 | 2;
   completedLessons: string[];
   theme: 'light' | 'dark';
+  replayNonce: number;
 
   goToStep: (index: number) => void;
   nextStep: () => void;
@@ -32,6 +33,7 @@ export const useCourseStore = create<CourseState>()(
       speed: 1,
       completedLessons: [],
       theme: 'light',
+      replayNonce: 0,
 
       goToStep: (index: number) => {
         const { currentLessonId } = get();
@@ -75,7 +77,7 @@ export const useCourseStore = create<CourseState>()(
 
       togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),
 
-      replay: () => set({ currentStepIndex: 0, isPlaying: true }),
+      replay: () => set((state) => ({ isPlaying: true, replayNonce: state.replayNonce + 1 })),
 
       setSpeed: (speed: 1 | 2) => set({ speed }),
 

@@ -21,6 +21,8 @@
     --node-redis: #F7D9A8;
     --node-mongo: #D8C8F4;
     --node-crashed: #FCA5A5;
+    --node-overloaded: #FDE68A;
+    --node-recovering: #BAE6FD;
 
     /* Traffic particle colors */
     --traffic-request: #22C55E;
@@ -51,6 +53,8 @@
     --node-redis: #E2BC7A;
     --node-mongo: #BFA5E5;
     --node-crashed: #EF4444;
+    --node-overloaded: #78350F;
+    --node-recovering: #0369A1;
 
     /* Traffic particle colors */
     --traffic-request: #22C55E;
