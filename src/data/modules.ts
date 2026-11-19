@@ -1,5 +1,6 @@
 import { Difficulty, Lesson, Module } from '../types/course';
 import { localhostHidesLesson } from './lessons/localhost-hides';
+import { blockingIoEventLoopLesson } from './lessons/blocking-io-event-loop';
 import { nginxLoadBalancingLesson } from './lessons/nginx-load-balancing';
 
 function createPlaceholderLesson(
@@ -129,15 +130,7 @@ export const modules: Module[] = [
 export const lessons: Record<string, Lesson> = {
   // Module 1: Localhost Limits
   'localhost-hides': localhostHidesLesson,
-  'blocking-io-event-loop': createPlaceholderLesson(
-    'blocking-io-event-loop',
-    '01-localhost-limits',
-    2,
-    'Blocking I/O and the event loop',
-    'One slow request freezes everyone.',
-    'Beginner',
-    10,
-  ),
+  'blocking-io-event-loop': blockingIoEventLoopLesson,
   'paas-vs-iaas-vs-vps': createPlaceholderLesson(
     'paas-vs-iaas-vs-vps',
     '01-localhost-limits',

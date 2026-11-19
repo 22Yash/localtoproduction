@@ -11,6 +11,15 @@ Check this file before writing lesson text. These are the facts most likely to b
 - Developer laptops are not servers: consumer operating systems suspend execution on lid close or inactivity, Wi-Fi connections drop and change IPs dynamically, and consumer hardware lacks redundant power, cooling, or uptime guarantees.
 - A single Node.js process on a single machine is a Single Point of Failure (SPOF): an uncaught exception, memory leak, or machine sleep drops all connected clients immediately.
 
+## Event loop and blocking
+- **Single-threaded JavaScript execution**: Node.js executes application JavaScript code on a single thread (the call stack). It does not execute JavaScript statements across multiple CPU cores simultaneously within a single process.
+- **Non-blocking I/O**: Asynchronous operations (network sockets, database queries, file system calls via libuv thread pool) run in the background. While waiting for I/O to complete, the event loop continues cycling and processing other incoming events and requests. "One thread" does not mean "one thing at a time".
+- **CPU blocking**: Synchronous compute-intensive code (e.g. giant JSON serialization/parsing, regex catastrophic backtracking, synchronous cryptography, complex sorting loops) hogs the call stack. While synchronous code executes, the event loop is completely frozen and cannot pick up new connections or fire ready callbacks, stalling all other users.
+- **Solutions for heavy tasks**:
+  - Offload CPU-bound computation to worker threads (`worker_threads`) or dedicated background worker services/queues (e.g. Redis + BullMQ).
+  - Use streaming or chunked asynchronous APIs instead of giant synchronous operations.
+  - Scale to multiple processes using Node's `cluster` module or process managers like PM2 to utilize multi-core CPUs.
+
 ## PM2: cluster mode vs separate processes
 - **Cluster mode** (`pm2 start server.js -i max`) runs several instances that **share one port**. Node's cluster module distributes connections. You cannot give each instance its own port in this mode.
 - To get **separate ports** (5001, 5002, 5003), run separate processes in **fork mode** with different `PORT` environment variables. NGINX `upstream` then lists three servers.

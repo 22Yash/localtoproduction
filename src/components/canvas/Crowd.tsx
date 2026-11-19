@@ -22,6 +22,23 @@ const CLOTHING_COLORS = [
   'var(--traffic-response)',
 ];
 
+/**
+ * Pure function mapping user count to figure count using a log-like curve:
+ * 1 user -> 1 figure
+ * 3 users -> 3 figures
+ * ~20 users -> 5 figures
+ * ~200 users -> 8 figures
+ * 2,000+ users -> 12 figures
+ */
+function getFigureCount(users: number): number {
+  if (users <= 1) return 1;
+  if (users <= 2) return 2;
+  if (users <= 4) return 3;
+  if (users <= 50) return 5;
+  if (users <= 600) return 8;
+  return 12;
+}
+
 export function Crowd({
   x,
   y,
@@ -31,16 +48,28 @@ export function Crowd({
   const reducedMotion = useReducedMotion();
   const { width, height, radius } = CROWD_DIMENSIONS;
 
-  // Exact figure counts: 4 figures at 200 users, 12 at 2,400 users
-  const figureCount = users <= 200 ? 4 : users <= 1000 ? 8 : 12;
+  const figureCount = getFigureCount(users);
 
   // Compute distinct positions
   const positions: Array<{ px: number; py: number; color: string }> = [];
 
-  if (figureCount === 4) {
+  if (figureCount === 1) {
+    positions.push({ px: 0, py: 8, color: CLOTHING_COLORS[0] });
+  } else if (figureCount === 2) {
+    positions.push(
+      { px: -28, py: 8, color: CLOTHING_COLORS[0] },
+      { px: 28, py: 8, color: CLOTHING_COLORS[1] }
+    );
+  } else if (figureCount === 3) {
+    positions.push(
+      { px: -45, py: 8, color: CLOTHING_COLORS[0] },
+      { px: 0, py: 8, color: CLOTHING_COLORS[1] },
+      { px: 45, py: 8, color: CLOTHING_COLORS[2] }
+    );
+  } else if (figureCount === 4) {
     // 2x2 grid cleanly centered
-    const xs = [-40, 40];
-    const ys = [-8, 26];
+    const xs = [-36, 36];
+    const ys = [-8, 24];
     let idx = 0;
     for (const r of ys) {
       for (const c of xs) {
@@ -52,6 +81,15 @@ export function Crowd({
         idx++;
       }
     }
+  } else if (figureCount === 5) {
+    // 2 back, 3 front (staggered for zero occlusion)
+    positions.push(
+      { px: -32, py: -8, color: CLOTHING_COLORS[0] },
+      { px: 32, py: -8, color: CLOTHING_COLORS[1] },
+      { px: -52, py: 24, color: CLOTHING_COLORS[2] },
+      { px: 0, py: 24, color: CLOTHING_COLORS[3] },
+      { px: 52, py: 24, color: CLOTHING_COLORS[4] }
+    );
   } else if (figureCount === 8) {
     // 2 rows of 4
     const xs = [-60, -20, 20, 60];
@@ -84,7 +122,7 @@ export function Crowd({
     }
   }
 
-  const pillText = `${users.toLocaleString()} users`;
+  const pillText = users === 1 ? '1 user' : `${users.toLocaleString()} users`;
   const pillWidth = Math.max(135, pillText.length * 9.5 + 46);
 
   return (
