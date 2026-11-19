@@ -26,6 +26,8 @@ export function Connector({
     return null;
   }
 
+  const isBlocked = flow.type === 'blocked';
+
   return (
     <motion.line
       key={id}
@@ -33,10 +35,11 @@ export function Connector({
       y1={startY}
       x2={endX}
       y2={endY}
-      stroke="var(--ink)"
+      stroke={isBlocked ? 'var(--traffic-blocked, #EF4444)' : 'var(--ink)'}
       strokeWidth={2.5}
+      strokeDasharray={isBlocked ? '6 4' : undefined}
       strokeLinecap="round"
-      markerEnd="url(#arrowhead)"
+      markerEnd={isBlocked ? 'url(#blocked-x)' : 'url(#arrowhead)'}
       initial={reducedMotion ? { opacity: 1 } : { opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={reducedMotion ? { opacity: 0 } : { opacity: 0 }}

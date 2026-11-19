@@ -29,6 +29,7 @@
     --traffic-response: #3B82F6;
     --traffic-cache-miss: #F59E0B;
     --traffic-invalidate: #EF4444;
+    --traffic-blocked: #EF4444;
   }
 
   .dark {
@@ -61,5 +62,6 @@
     --traffic-response: #3B82F6;
     --traffic-cache-miss: #F59E0B;
     --traffic-invalidate: #EF4444;
+    --traffic-blocked: #EF4444;
   }
 }

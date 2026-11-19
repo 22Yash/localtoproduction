@@ -1,4 +1,5 @@
 import { Difficulty, Lesson, Module } from '../types/course';
+import { localhostHidesLesson } from './lessons/localhost-hides';
 import { nginxLoadBalancingLesson } from './lessons/nginx-load-balancing';
 
 function createPlaceholderLesson(
@@ -127,15 +128,7 @@ export const modules: Module[] = [
 
 export const lessons: Record<string, Lesson> = {
   // Module 1: Localhost Limits
-  'localhost-hides': createPlaceholderLesson(
-    'localhost-hides',
-    '01-localhost-limits',
-    1,
-    'What localhost hides',
-    'One machine, one process, no other users.',
-    'Beginner',
-    8,
-  ),
+  'localhost-hides': localhostHidesLesson,
   'blocking-io-event-loop': createPlaceholderLesson(
     'blocking-io-event-loop',
     '01-localhost-limits',

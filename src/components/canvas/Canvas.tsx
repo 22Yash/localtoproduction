@@ -130,7 +130,7 @@ export function Canvas(): React.JSX.Element {
   });
 
   return (
-    <div className="flex-1 w-full min-h-[380px] p-2 sm:p-4 flex flex-col items-stretch select-none">
+    <div className="w-full p-2 sm:p-4 flex flex-col items-stretch select-none">
       {/* Top Toolbar Strip: Reserved row above SVG, right-aligned, not floating over diagram */}
       <div className="w-full flex items-center justify-end pb-2 shrink-0">
         <div className="flex items-center gap-1.5 bg-surface border border-ink rounded-lg p-1 shadow-sm select-none">
@@ -172,12 +172,12 @@ export function Canvas(): React.JSX.Element {
         </div>
       </div>
 
-      {/* Interactive Canvas Area */}
-      <div className="flex-1 w-full flex items-center justify-center relative overflow-hidden">
+      {/* Interactive Canvas Area: width 100% and aspect-ratio 980 / 550 */}
+      <div className="w-full aspect-[980/550] relative overflow-hidden">
         <svg
           viewBox={`0 0 ${CANVAS_VIEWBOX.width} ${CANVAS_VIEWBOX.height}`}
           preserveAspectRatio="xMidYMid meet"
-          className="w-full h-full max-h-[560px] drop-shadow-sm"
+          className="w-full h-full block drop-shadow-sm"
         >
           <defs>
             {/* Faint diamond grid floor pattern */}
@@ -208,6 +208,25 @@ export function Canvas(): React.JSX.Element {
               orient="auto"
             >
               <path d="M 1 2 L 8 5 L 1 8 z" fill="var(--ink)" />
+            </marker>
+
+            {/* Blocked flow end marker (crisp red X) */}
+            <marker
+              id="blocked-x"
+              viewBox="0 0 12 12"
+              refX="6"
+              refY="6"
+              markerUnits="userSpaceOnUse"
+              markerWidth="12"
+              markerHeight="12"
+              orient="auto"
+            >
+              <path
+                d="M 2 2 L 10 10 M 10 2 L 2 10"
+                stroke="var(--traffic-blocked, #EF4444)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              />
             </marker>
           </defs>
 

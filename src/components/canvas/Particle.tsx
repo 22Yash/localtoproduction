@@ -27,6 +27,8 @@ function getTrafficColor(type: FlowType): string {
     case 'cacheFill':
     case 'invalidate':
       return 'var(--traffic-invalidate)';
+    case 'blocked':
+      return 'var(--traffic-blocked, #EF4444)';
     default:
       return 'var(--traffic-request)';
   }
@@ -76,7 +78,7 @@ export function Particle({
   });
 
   const opacity = useTransform(clock, (t) => {
-    if (reducedMotion || isCrashedTarget) {
+    if (reducedMotion || isCrashedTarget || type === 'blocked') {
       return 0;
     }
     const cycleTime = t % groupCycle;
@@ -90,7 +92,7 @@ export function Particle({
     return 0;
   });
 
-  if (reducedMotion || isCrashedTarget) {
+  if (reducedMotion || isCrashedTarget || type === 'blocked') {
     return null;
   }
 

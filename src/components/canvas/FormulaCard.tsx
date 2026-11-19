@@ -13,16 +13,16 @@ export interface FormulaCardProps {
 }
 
 export function FormulaCard({
-  x = 40,
-  y = 30,
+  x = 20,
+  y = 20,
   formula,
 }: FormulaCardProps): React.JSX.Element | null {
   const reducedMotion = useReducedMotion();
 
   if (!formula || formula.rows.length === 0) return null;
 
-  const width = 270;
-  const height = 88;
+  const width = 340;
+  const height = 124;
 
   return (
     <AnimatePresence>
@@ -59,11 +59,11 @@ export function FormulaCard({
 
         {/* Header Title */}
         <text
-          x={x + 8}
-          y={y + 14}
+          x={x + 10}
+          y={y + 16}
           fill="var(--ink)"
           fillOpacity={0.75}
-          fontSize="9.5"
+          fontSize="13.5"
           fontWeight="bold"
           fontFamily="monospace"
           letterSpacing="0.04em"
@@ -74,16 +74,16 @@ export function FormulaCard({
         {/* Divider Line */}
         <line
           x1={x}
-          y1={y + 20}
+          y1={y + 24}
           x2={x + width}
-          y2={y + 20}
+          y2={y + 24}
           stroke="var(--divider)"
           strokeWidth={1}
         />
 
         {/* Monospace Formula Rows */}
         {formula.rows.map((row, idx) => {
-          const rowY = y + 23 + idx * 15;
+          const rowY = y + 28 + idx * 22;
           const isHigh = Boolean(row.highlighted);
 
           return (
@@ -93,8 +93,8 @@ export function FormulaCard({
                   x={x + 4}
                   y={rowY}
                   width={width - 8}
-                  height={14}
-                  rx={3}
+                  height={20}
+                  rx={4}
                   fill="var(--accent)"
                   stroke="var(--ink)"
                   strokeWidth={1}
@@ -104,9 +104,9 @@ export function FormulaCard({
               {/* Label */}
               <text
                 x={x + 8}
-                y={rowY + 10.5}
+                y={rowY + 15}
                 fill="var(--ink)"
-                fontSize="9"
+                fontSize="15.5"
                 fontWeight={isHigh ? 'bold' : '600'}
                 fontFamily="monospace"
               >
@@ -115,11 +115,11 @@ export function FormulaCard({
 
               {/* Expression */}
               <text
-                x={x + 78}
-                y={rowY + 10.5}
+                x={x + 102}
+                y={rowY + 15}
                 fill="var(--ink)"
                 fillOpacity={isHigh ? 1 : 0.7}
-                fontSize="9"
+                fontSize="15"
                 fontWeight={isHigh ? 'bold' : 'normal'}
                 fontFamily="monospace"
               >
@@ -130,10 +130,10 @@ export function FormulaCard({
               {row.result && (
                 <text
                   x={x + width - 8}
-                  y={rowY + 10.5}
+                  y={rowY + 15}
                   textAnchor="end"
                   fill="var(--ink)"
-                  fontSize="9"
+                  fontSize="15.5"
                   fontWeight={isHigh ? 'bold' : 'normal'}
                   fontFamily="monospace"
                 >

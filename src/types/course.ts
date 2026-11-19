@@ -2,7 +2,7 @@ export type Difficulty = 'Beginner' | 'Intermediate' | 'Advanced';
 export type StepCategory = 'ARCHITECTURE' | 'CONFIG' | 'FAILOVER' | 'TECHNIQUE';
 export type NodeKind = 'users' | 'nginx' | 'node' | 'redis' | 'mongo' | 'cdn' | 'docker' | 'k8s' | 'custom';
 export type NodeStatus = 'hidden' | 'active' | 'overloaded' | 'crashed' | 'recovering';
-export type FlowType = 'request' | 'response' | 'cacheMiss' | 'cacheFill' | 'invalidate';
+export type FlowType = 'request' | 'response' | 'cacheMiss' | 'cacheFill' | 'invalidate' | 'blocked';
 
 export type TelemetryIconName =
   | 'Server'

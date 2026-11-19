@@ -99,7 +99,7 @@ export function IsoNode({
 
   // Badge pill width estimation
   const badgeText = badge ?? '';
-  const badgeWidth = Math.max(50, badgeText.length * 8.5 + 20);
+  const badgeWidth = Math.max(60, badgeText.length * 10 + 26);
 
   return (
     <g transform={`translate(${x}, ${y})`}>
@@ -128,21 +128,21 @@ export function IsoNode({
         />
 
         {/* Node Icon */}
-        <g transform="translate(-12, -40)" className="text-ink">
+        <g transform="translate(-14, -42)" className="text-ink">
           {isCrashed ? (
-            <CloseIcon className="w-6 h-6 stroke-[2.5] text-ink" />
+            <CloseIcon className="w-7 h-7 stroke-[2.5] text-ink" />
           ) : (
             icon
           )}
         </g>
 
-        {/* Node Label (about 14px in screen units at 1000px canvas) */}
+        {/* Node Label (rendered >= 14px at 1440px viewport) */}
         <text
           x={0}
-          y={sublabel ? 10 : 14}
+          y={sublabel ? 8 : 12}
           textAnchor="middle"
           fill="var(--ink)"
-          fontSize="14.5"
+          fontSize="20.5"
           fontWeight="bold"
           fontFamily="monospace"
           className="select-none"
@@ -150,15 +150,15 @@ export function IsoNode({
           {label}
         </text>
 
-        {/* Node Sublabel (about 11 to 12px in screen units) */}
+        {/* Node Sublabel (rendered >= 12px at 1440px viewport) */}
         {sublabel && (
           <text
             x={0}
-            y={32}
+            y={35}
             textAnchor="middle"
             fill="var(--ink)"
             fillOpacity={0.7}
-            fontSize="11.5"
+            fontSize="17"
             fontFamily="monospace"
             className="select-none"
           >
@@ -166,35 +166,35 @@ export function IsoNode({
           </text>
         )}
 
-        {/* Node Badge Pill (about 11 to 12px in screen units) */}
+        {/* Node Badge Pill (rendered >= 12px at 1440px viewport) */}
         {badge && (
           <g transform={`translate(${width / 2 - badgeWidth / 2 - 8}, ${-height / 2})`}>
             {/* Hard shadow on badge */}
             <rect
               x={-badgeWidth / 2 + 2}
-              y={-11 + 2}
+              y={-13 + 2}
               width={badgeWidth}
-              height={22}
-              rx={6}
+              height={26}
+              rx={7}
               fill="var(--ink)"
             />
             {/* Badge pill */}
             <rect
               x={-badgeWidth / 2}
-              y={-11}
+              y={-13}
               width={badgeWidth}
-              height={22}
-              rx={6}
+              height={26}
+              rx={7}
               fill={isCrashed ? 'var(--node-crashed)' : isOverloaded ? 'var(--node-overloaded)' : 'var(--surface)'}
               stroke="var(--ink)"
               strokeWidth={1.2}
             />
             <text
               x={0}
-              y={4.5}
+              y={5.5}
               textAnchor="middle"
               fill="var(--ink)"
-              fontSize="11.5"
+              fontSize="17"
               fontWeight="bold"
               fontFamily="monospace"
               className="select-none"

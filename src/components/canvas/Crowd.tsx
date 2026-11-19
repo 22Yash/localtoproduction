@@ -85,7 +85,7 @@ export function Crowd({
   }
 
   const pillText = `${users.toLocaleString()} users`;
-  const pillWidth = Math.max(124, pillText.length * 8.5 + 40);
+  const pillWidth = Math.max(135, pillText.length * 9.5 + 46);
 
   return (
     <g transform={`translate(${x}, ${y})`}>
@@ -118,14 +118,14 @@ export function Crowd({
           strokeWidth={1.5}
         />
 
-        {/* Platform Title ("USERS PLATFORM" caption >= 11px) */}
+        {/* Platform Title ("USERS PLATFORM" caption >= 11px rendered) */}
         <text
           x={0}
-          y={-height / 2 + 18}
+          y={-height / 2 + 19}
           textAnchor="middle"
           fill="var(--ink)"
           fillOpacity={0.7}
-          fontSize="11"
+          fontSize="15"
           fontWeight="bold"
           fontFamily="monospace"
           className="select-none"
@@ -172,22 +172,22 @@ export function Crowd({
         </g>
 
         {/* Pill below the platform so figures never overlap it */}
-        <g transform={`translate(0, ${height / 2 + 22})`}>
+        <g transform={`translate(0, ${height / 2 + 25})`}>
           {/* Hard offset shadow */}
           <rect
             x={-pillWidth / 2 + 2.5}
-            y={-13 + 2.5}
+            y={-14 + 2.5}
             width={pillWidth}
-            height={26}
+            height={28}
             rx={7}
             fill="var(--ink)"
           />
           {/* Pill body */}
           <rect
             x={-pillWidth / 2}
-            y={-13}
+            y={-14}
             width={pillWidth}
-            height={26}
+            height={28}
             rx={7}
             fill="var(--surface)"
             stroke="var(--ink)"
@@ -200,10 +200,10 @@ export function Crowd({
           {/* User count text */}
           <text
             x={10}
-            y={4.5}
+            y={5.5}
             textAnchor="middle"
             fill="var(--ink)"
-            fontSize="12"
+            fontSize="16"
             fontWeight="bold"
             fontFamily="monospace"
             className="select-none"

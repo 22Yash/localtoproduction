@@ -21,11 +21,12 @@ const ALL_LEGEND_ITEMS: LegendItemConfig[] = [
   { type: 'cacheMiss', label: 'cache miss', color: 'var(--traffic-cache-miss)' },
   { type: 'cacheFill', label: 'cache fill / write', color: 'var(--traffic-invalidate)' },
   { type: 'invalidate', label: 'invalidate', color: 'var(--traffic-invalidate)' },
+  { type: 'blocked', label: 'blocked', color: 'var(--traffic-blocked, #EF4444)' },
 ];
 
 export function Legend({
-  x = 40,
-  y = 496,
+  x = 24,
+  y = 492,
   flows,
 }: LegendProps): React.JSX.Element | null {
   const reducedMotion = useReducedMotion();
@@ -34,9 +35,9 @@ export function Legend({
 
   if (visibleItems.length === 0) return null;
 
-  const itemWidth = 85;
+  const itemWidth = 120;
   const width = visibleItems.length * itemWidth + 24;
-  const height = 26;
+  const height = 34;
 
   return (
     <AnimatePresence>
@@ -73,27 +74,50 @@ export function Legend({
 
         {/* Items */}
         {visibleItems.map((item, idx) => {
-          const itemX = x + 12 + idx * itemWidth;
+          const itemX = x + 14 + idx * itemWidth;
 
           return (
             <g key={item.type}>
-              {/* Color dot */}
-              <circle
-                cx={itemX + 4}
-                cy={y + 13}
-                r={3.5}
-                fill={item.color}
-                stroke="var(--ink)"
-                strokeWidth={0.8}
-              />
-              {/* Label */}
+              {/* Indicator dot or blocked X */}
+              {item.type === 'blocked' ? (
+                <g transform={`translate(${itemX + 5}, ${y + 17})`}>
+                  <line
+                    x1={-3.5}
+                    y1={-3.5}
+                    x2={3.5}
+                    y2={3.5}
+                    stroke={item.color}
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                  />
+                  <line
+                    x1={3.5}
+                    y1={-3.5}
+                    x2={-3.5}
+                    y2={3.5}
+                    stroke={item.color}
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                  />
+                </g>
+              ) : (
+                <circle
+                  cx={itemX + 5}
+                  cy={y + 17}
+                  r={4.5}
+                  fill={item.color}
+                  stroke="var(--ink)"
+                  strokeWidth={1}
+                />
+              )}
+              {/* Label (rendered >= 12px at 1440px viewport) */}
               <text
-                x={itemX + 13}
-                y={y + 16.5}
+                x={itemX + 16}
+                y={y + 22.5}
                 fill="var(--ink)"
-                fontSize="10"
+                fontSize="17"
                 fontFamily="monospace"
-                fontWeight="500"
+                fontWeight="600"
               >
                 {item.label}
               </text>

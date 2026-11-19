@@ -2,6 +2,15 @@
 
 Check this file before writing lesson text. These are the facts most likely to be taught wrongly.
 
+## Localhost, loopback and NAT
+- `localhost` resolves to the loopback interface (`127.0.0.1` in IPv4, `::1` in IPv6). Packets sent to loopback stay entirely within the operating system kernel and never traverse physical network interfaces (Ethernet or Wi-Fi).
+- A process listening explicitly on `127.0.0.1` or `localhost` rejects any external connection, even from devices on the exact same Wi-Fi network.
+- Binding to `0.0.0.0` (all interfaces / `INADDR_ANY`) allows devices on the same local area network (LAN) to connect using the host's private LAN IP (e.g. `192.168.1.x:3000`), provided local OS firewalls (e.g. Windows Defender, macOS firewall) allow incoming traffic.
+- Private IPv4 address blocks (`10.0.0.0/8`, `172.16.0.0/12`, `192.168.0.0/16`) are non-routable over the public internet per RFC 1918.
+- Home and office routers use Network Address Translation (NAT) to map many internal private IPs to a single public IP. Inbound requests from the public internet cannot reach an internal device without explicit port forwarding or an established outbound tunnel (e.g. ngrok, Cloudflare Tunnel).
+- Developer laptops are not servers: consumer operating systems suspend execution on lid close or inactivity, Wi-Fi connections drop and change IPs dynamically, and consumer hardware lacks redundant power, cooling, or uptime guarantees.
+- A single Node.js process on a single machine is a Single Point of Failure (SPOF): an uncaught exception, memory leak, or machine sleep drops all connected clients immediately.
+
 ## PM2: cluster mode vs separate processes
 - **Cluster mode** (`pm2 start server.js -i max`) runs several instances that **share one port**. Node's cluster module distributes connections. You cannot give each instance its own port in this mode.
 - To get **separate ports** (5001, 5002, 5003), run separate processes in **fork mode** with different `PORT` environment variables. NGINX `upstream` then lists three servers.

@@ -33,6 +33,7 @@ export default {
           response: 'var(--traffic-response)',
           miss: 'var(--traffic-cache-miss)',
           invalidate: 'var(--traffic-invalidate)',
+          blocked: 'var(--traffic-blocked)',
         },
       },
       fontFamily: {
