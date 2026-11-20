@@ -2,6 +2,7 @@ import { Difficulty, Lesson, Module } from '../types/course';
 import { localhostHidesLesson } from './lessons/localhost-hides';
 import { blockingIoEventLoopLesson } from './lessons/blocking-io-event-loop';
 import { paasVsIaasVsVpsLesson } from './lessons/paas-vs-iaas-vs-vps';
+import { targetArchitectureLesson } from './lessons/target-architecture';
 import { nginxLoadBalancingLesson } from './lessons/nginx-load-balancing';
 
 function createPlaceholderLesson(
@@ -133,15 +134,7 @@ export const lessons: Record<string, Lesson> = {
   'localhost-hides': localhostHidesLesson,
   'blocking-io-event-loop': blockingIoEventLoopLesson,
   'paas-vs-iaas-vs-vps': paasVsIaasVsVpsLesson,
-  'target-architecture': createPlaceholderLesson(
-    'target-architecture',
-    '01-localhost-limits',
-    4,
-    'The target architecture',
-    'Users, NGINX, Node cluster, Redis, MongoDB preview.',
-    'Beginner',
-    12,
-  ),
+  'target-architecture': targetArchitectureLesson,
 
   // Module 2: Linux & Cloud VPS
   'vps-first-ssh': createPlaceholderLesson(

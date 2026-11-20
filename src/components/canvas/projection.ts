@@ -1,3 +1,5 @@
+import { Lesson } from '../../types/course';
+
 /**
  * Screen projection system for ShipToProd.
  * Converts grid coordinates { x, y } to SVG pixel coordinates.
@@ -33,13 +35,100 @@ const GRID_MAPPING = {
   unitY: 88,
 };
 
+export interface CanvasLayoutConfig {
+  viewBox: { width: number; height: number };
+  unitX: number;
+  unitY: number;
+  originX: number;
+  originY: number;
+  nodeDimensions: { width: number; height: number; radius: number };
+}
+
+/**
+ * Derives viewBox and projection layout from the union of all node positions across a lesson's steps.
+ * For standard lessons (maxX <= 5), yields the exact default 980x550 layout.
+ * For wider lessons (e.g. 4 columns of nodes), dynamically calculates width and reduces column spacing
+ * to keep node labels >= 12px rendered font size at 1440px viewport.
+ */
+export function getCanvasLayout(lesson?: Lesson | null): CanvasLayoutConfig {
+  const defaultWidth = 980;
+  const defaultHeight = 550;
+  const defaultUnitX = 165;
+  const defaultUnitY = 88;
+  const defaultOriginX = 160;
+  const defaultOriginY = 110;
+
+  if (!lesson || !lesson.steps || lesson.steps.length === 0) {
+    return {
+      viewBox: { width: defaultWidth, height: defaultHeight },
+      unitX: defaultUnitX,
+      unitY: defaultUnitY,
+      originX: defaultOriginX,
+      originY: defaultOriginY,
+      nodeDimensions: NODE_DIMENSIONS,
+    };
+  }
+
+  // Find max grid x across all steps in the lesson
+  let maxX = 5;
+  for (const step of lesson.steps) {
+    for (const node of step.nodes) {
+      if (node.position.x > maxX) {
+        maxX = node.position.x;
+      }
+    }
+  }
+
+  // If maxX <= 5, exactly match the default standard layout
+  if (maxX <= 5) {
+    return {
+      viewBox: { width: defaultWidth, height: defaultHeight },
+      unitX: defaultUnitX,
+      unitY: defaultUnitY,
+      originX: defaultOriginX,
+      originY: defaultOriginY,
+      nodeDimensions: NODE_DIMENSIONS,
+    };
+  }
+
+  // Wider lesson layout
+  const renderedWidth = 721;
+  const minRenderedFontSize = 12;
+  const baseLabelFontSize = 20.5;
+
+  let unitX = defaultUnitX;
+  let lastNodeCenterX = defaultOriginX + (maxX - 1) * unitX;
+  let requiredWidth = lastNodeCenterX + NODE_DIMENSIONS.width / 2 + 40;
+
+  // If the wider viewBox would make a node label render below 12px at a 1440px viewport,
+  // reduce the spacing between columns (to about node width plus 50: 240 + 50 = 290 px center-to-center => unitX = 145)
+  if (baseLabelFontSize * (renderedWidth / requiredWidth) < minRenderedFontSize) {
+    unitX = 145;
+    lastNodeCenterX = defaultOriginX + (maxX - 1) * unitX;
+    requiredWidth = lastNodeCenterX + NODE_DIMENSIONS.width / 2 + 40;
+  }
+
+  return {
+    viewBox: { width: Math.max(defaultWidth, requiredWidth), height: defaultHeight },
+    unitX,
+    unitY: defaultUnitY,
+    originX: defaultOriginX,
+    originY: defaultOriginY,
+    nodeDimensions: NODE_DIMENSIONS,
+  };
+}
+
 /**
  * Converts a grid coordinate { x, y } to canvas SVG center coordinates.
  */
-export function gridToScreen(pos: Point): Point {
+export function gridToScreen(pos: Point, layout?: CanvasLayoutConfig): Point {
+  const originX = layout?.originX ?? GRID_MAPPING.originX;
+  const originY = layout?.originY ?? GRID_MAPPING.originY;
+  const unitX = layout?.unitX ?? GRID_MAPPING.unitX;
+  const unitY = layout?.unitY ?? GRID_MAPPING.unitY;
   return {
-    x: GRID_MAPPING.originX + (pos.x - 1) * GRID_MAPPING.unitX,
-    y: GRID_MAPPING.originY + (pos.y - 1) * GRID_MAPPING.unitY,
+    x: originX + (pos.x - 1) * unitX,
+    y: originY + (pos.y - 1) * unitY,
   };
 }
 
@@ -57,13 +146,14 @@ export interface ConnectorEndpoints {
 export function computeConnectorEndpoints(
   fromPos: Point,
   toPos: Point,
-  hasOppositeFlow = false
+  hasOppositeFlow = false,
+  layout?: CanvasLayoutConfig
 ): ConnectorEndpoints | null {
-  const pA = gridToScreen(fromPos);
-  const pB = gridToScreen(toPos);
+  const pA = gridToScreen(fromPos, layout);
+  const pB = gridToScreen(toPos, layout);
 
-  const hw = NODE_DIMENSIONS.width / 2;
-  const hh = NODE_DIMENSIONS.height / 2;
+  const hw = (layout?.nodeDimensions ?? NODE_DIMENSIONS).width / 2;
+  const hh = (layout?.nodeDimensions ?? NODE_DIMENSIONS).height / 2;
 
   const dx = pB.x - pA.x;
   const dy = pB.y - pA.y;

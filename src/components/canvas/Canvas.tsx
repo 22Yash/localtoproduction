@@ -19,9 +19,9 @@ import { NodeKind, SceneNode } from '../../types/course';
 import { lessons } from '../../data/modules';
 import { useCourseStore } from '../../store/useCourseStore';
 import {
-  CANVAS_VIEWBOX,
   gridToScreen,
   computeConnectorEndpoints,
+  getCanvasLayout,
 } from './projection';
 import { IsoNode } from './IsoNode';
 import { Crowd } from './Crowd';
@@ -88,6 +88,8 @@ export function Canvas(): React.JSX.Element {
   const setSpeed = useCourseStore((s) => s.setSpeed);
 
   const lesson = lessons[currentLessonId];
+  const layout = getCanvasLayout(lesson);
+  const viewBox = layout.viewBox;
   const step = lesson?.steps[currentStepIndex];
   const nodes = step?.nodes ?? [];
   const visibleNodes = nodes.filter((n) => n.status !== 'hidden');
@@ -182,10 +184,13 @@ export function Canvas(): React.JSX.Element {
         </div>
       </div>
 
-      {/* Interactive Canvas Area: width 100% and aspect-ratio 980 / 550 */}
-      <div className="w-full aspect-[980/550] relative overflow-hidden">
+      {/* Interactive Canvas Area: dynamic viewBox aspect-ratio */}
+      <div
+        className="w-full relative overflow-hidden"
+        style={{ aspectRatio: `${viewBox.width} / ${viewBox.height}` }}
+      >
         <svg
-          viewBox={`0 0 ${CANVAS_VIEWBOX.width} ${CANVAS_VIEWBOX.height}`}
+          viewBox={`0 0 ${viewBox.width} ${viewBox.height}`}
           preserveAspectRatio="xMidYMid meet"
           className="w-full h-full block drop-shadow-sm"
         >
@@ -270,7 +275,8 @@ export function Canvas(): React.JSX.Element {
                 const endpoints = computeConnectorEndpoints(
                   fromNode.position,
                   toNode.position,
-                  hasOpposite
+                  hasOpposite,
+                  layout
                 );
 
                 if (!endpoints) return null;
@@ -312,7 +318,8 @@ export function Canvas(): React.JSX.Element {
               const endpoints = computeConnectorEndpoints(
                 fromNode.position,
                 toNode.position,
-                hasOpposite
+                hasOpposite,
+                layout
               );
 
               if (!endpoints) return null;
@@ -344,7 +351,7 @@ export function Canvas(): React.JSX.Element {
           <g id="canvas-nodes">
             <AnimatePresence>
               {visibleNodes.map((node) => {
-                const screen = gridToScreen(node.position);
+                const screen = gridToScreen(node.position, layout);
 
                 if (node.kind === 'users') {
                   return (
