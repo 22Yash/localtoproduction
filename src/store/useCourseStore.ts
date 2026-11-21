@@ -29,7 +29,7 @@ export const useCourseStore = create<CourseState>()(
       currentModuleId: '04-nginx',
       currentLessonId: 'nginx-load-balancing',
       currentStepIndex: 0,
-      isPlaying: false,
+      isPlaying: true,
       speed: 1,
       completedLessons: [],
       theme: 'light',
@@ -71,7 +71,7 @@ export const useCourseStore = create<CourseState>()(
           currentLessonId: lessonId,
           currentModuleId: targetModuleId,
           currentStepIndex: 0,
-          isPlaying: false,
+          isPlaying: true,
         });
       },
 

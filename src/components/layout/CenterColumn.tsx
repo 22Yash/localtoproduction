@@ -4,6 +4,7 @@ import { useCourseStore } from '../../store/useCourseStore';
 import { LessonHeader } from '../lesson/LessonHeader';
 import { TelemetryStrip } from '../lesson/TelemetryStrip';
 import { StepTimeline } from '../lesson/StepTimeline';
+import { TerminalPanel } from '../lesson/TerminalPanel';
 import { Canvas } from '../canvas/Canvas';
 
 export function CenterColumn(): React.JSX.Element {
@@ -32,6 +33,9 @@ export function CenterColumn(): React.JSX.Element {
 
       {/* Interactive Canvas Area */}
       <Canvas />
+
+      {/* Interactive Terminal Panel (appears when step has terminal) */}
+      <TerminalPanel />
 
       {/* Step Timeline */}
       <div className="shrink-0">

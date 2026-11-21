@@ -11,6 +11,8 @@ import {
   Cloud,
   Cpu,
   HardDrive,
+  Laptop,
+  Bot,
   RotateCcw,
   Play,
   Pause,
@@ -71,6 +73,8 @@ function getNodeIcon(node: SceneNode): React.ReactNode {
       if (node.id.includes('paas')) return <Cloud className="w-6 h-6 text-ink" />;
       if (node.id.includes('iaas') || node.id.includes('vm')) return <Cpu className="w-6 h-6 text-ink" />;
       if (node.id.includes('vps')) return <HardDrive className="w-6 h-6 text-ink" />;
+      if (node.id.includes('laptop')) return <Laptop className="w-6 h-6 text-ink" />;
+      if (node.id.includes('bot')) return <Bot className="w-6 h-6 text-ink" />;
       return <Server className="w-6 h-6 text-ink" />;
     default:
       return <Server className="w-6 h-6 text-ink" />;
@@ -388,7 +392,7 @@ export function Canvas(): React.JSX.Element {
           <FormulaCard formula={step?.formula} />
 
           {/* Legend: rendered inside SVG in bottom-left, zero collision */}
-          <Legend flows={flows} />
+          <Legend flows={flows} y={viewBox.height - 58} />
         </svg>
       </div>
     </div>

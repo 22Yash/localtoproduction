@@ -43,6 +43,12 @@ export interface FormulaRow {
   highlighted?: boolean;    // final row highlight
 }
 
+export interface TerminalLine {
+  kind: 'command' | 'output' | 'comment';
+  text: string;
+  highlight?: boolean;
+}
+
 export interface Step {
   id: string;
   shortLabel: string;       // timeline label, e.g. "DB melts"
@@ -55,6 +61,7 @@ export interface Step {
   telemetry: [TelemetryMetric, TelemetryMetric, TelemetryMetric, TelemetryMetric];
   crowd?: { users: number };            // drives the people platform and pill
   formula?: { title: string; rows: FormulaRow[] };
+  terminal?: { title?: string; lines: TerminalLine[] };
   learned: string;          // checklist item unlocked at this step
 }
 

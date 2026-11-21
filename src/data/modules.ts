@@ -3,6 +3,9 @@ import { localhostHidesLesson } from './lessons/localhost-hides';
 import { blockingIoEventLoopLesson } from './lessons/blocking-io-event-loop';
 import { paasVsIaasVsVpsLesson } from './lessons/paas-vs-iaas-vs-vps';
 import { targetArchitectureLesson } from './lessons/target-architecture';
+import { vpsFirstSshLesson } from './lessons/vps-first-ssh';
+import { sshKeysSecurityLesson } from './lessons/ssh-keys-security';
+import { usersSudoPermissionsLesson } from './lessons/users-sudo-permissions';
 import { nginxLoadBalancingLesson } from './lessons/nginx-load-balancing';
 
 function createPlaceholderLesson(
@@ -137,33 +140,9 @@ export const lessons: Record<string, Lesson> = {
   'target-architecture': targetArchitectureLesson,
 
   // Module 2: Linux & Cloud VPS
-  'vps-first-ssh': createPlaceholderLesson(
-    'vps-first-ssh',
-    '02-linux-cloud-vps',
-    1,
-    'Creating a VPS and first SSH login',
-    'Spinning up a cloud instance and connecting via terminal.',
-    'Beginner',
-    10,
-  ),
-  'ssh-keys-security': createPlaceholderLesson(
-    'ssh-keys-security',
-    '02-linux-cloud-vps',
-    2,
-    'SSH keys & disabling password login',
-    'Ed25519 key authentication and locking down SSH config.',
-    'Beginner',
-    11,
-  ),
-  'users-sudo-permissions': createPlaceholderLesson(
-    'users-sudo-permissions',
-    '02-linux-cloud-vps',
-    3,
-    'Users, sudo, and permissions',
-    'Creating deploy users and dropping root privileges.',
-    'Beginner',
-    10,
-  ),
+  'vps-first-ssh': vpsFirstSshLesson,
+  'ssh-keys-security': sshKeysSecurityLesson,
+  'users-sudo-permissions': usersSudoPermissionsLesson,
   'ufw-firewall-deploy': createPlaceholderLesson(
     'ufw-firewall-deploy',
     '02-linux-cloud-vps',

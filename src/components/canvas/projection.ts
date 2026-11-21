@@ -69,24 +69,42 @@ export function getCanvasLayout(lesson?: Lesson | null): CanvasLayoutConfig {
     };
   }
 
-  // Find max grid x across all steps in the lesson
+  // Find max grid x and max grid y across all steps in the lesson
   let maxX = 5;
+  let maxY = 1;
   for (const step of lesson.steps) {
     for (const node of step.nodes) {
       if (node.position.x > maxX) {
         maxX = node.position.x;
       }
+      if (node.position.y > maxY) {
+        maxY = node.position.y;
+      }
     }
   }
 
-  // If maxX <= 5, exactly match the default standard layout
+  // Calculate viewBox height:
+  // If a lesson has a terminal panel and few nodes, shrink canvas height with node extents (minimum ~280px)
+  // so the terminal step fits on screen without excessive scrolling.
+  const hasTerminal = lesson.steps.some((s) => Boolean(s.terminal));
+  let originY = defaultOriginY;
+  let height = defaultHeight;
+
+  if (hasTerminal) {
+    originY = 80;
+    const lastNodeCenterY = originY + (maxY - 1) * defaultUnitY;
+    const requiredHeight = lastNodeCenterY + NODE_DIMENSIONS.height / 2 + 50;
+    height = Math.max(280, Math.min(defaultHeight, Math.round(requiredHeight)));
+  }
+
+  // If maxX <= 5, standard width layout
   if (maxX <= 5) {
     return {
-      viewBox: { width: defaultWidth, height: defaultHeight },
+      viewBox: { width: defaultWidth, height },
       unitX: defaultUnitX,
       unitY: defaultUnitY,
       originX: defaultOriginX,
-      originY: defaultOriginY,
+      originY,
       nodeDimensions: NODE_DIMENSIONS,
     };
   }
@@ -109,11 +127,11 @@ export function getCanvasLayout(lesson?: Lesson | null): CanvasLayoutConfig {
   }
 
   return {
-    viewBox: { width: Math.max(defaultWidth, requiredWidth), height: defaultHeight },
+    viewBox: { width: Math.max(defaultWidth, requiredWidth), height },
     unitX,
     unitY: defaultUnitY,
     originX: defaultOriginX,
-    originY: defaultOriginY,
+    originY,
     nodeDimensions: NODE_DIMENSIONS,
   };
 }

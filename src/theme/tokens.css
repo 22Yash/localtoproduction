@@ -31,6 +31,14 @@
     --traffic-cache-miss: #F59E0B;
     --traffic-invalidate: #EF4444;
     --traffic-blocked: #EF4444;
+
+    /* Terminal panel tokens (dark panel in both light and dark themes) */
+    --terminal-bg: #141413;
+    --terminal-surface: #1E1E1C;
+    --terminal-text: #EAE7DD;
+    --terminal-prompt: #A6CE84;
+    --terminal-comment: #8A877C;
+    --terminal-highlight-bg: rgba(166, 206, 132, 0.2);
   }
 
   .dark {
@@ -65,5 +73,13 @@
     --traffic-cache-miss: #F59E0B;
     --traffic-invalidate: #EF4444;
     --traffic-blocked: #EF4444;
+
+    /* Terminal panel tokens */
+    --terminal-bg: #121211;
+    --terminal-surface: #1C1B18;
+    --terminal-text: #EAE7DD;
+    --terminal-prompt: #A6CE84;
+    --terminal-comment: #8A877C;
+    --terminal-highlight-bg: rgba(166, 206, 132, 0.22);
   }
 }
